@@ -10,6 +10,7 @@ public abstract class Item implements Cloneable{
     double price;
     int quantity;
     
+    
     public Item (String name, int id, Location location, double price, int quantity) {
         this.id = id;
         this.name = name.toLowerCase();
@@ -26,7 +27,7 @@ public abstract class Item implements Cloneable{
         return name;
     }
     
-    public int getId() {
+    public int getID() {
         return id;
     }
     
@@ -38,8 +39,8 @@ public abstract class Item implements Cloneable{
         return location.row();
     }
     
-    public String getLocation() {
-        return location.toString();
+    public Location getLocation() {
+        return location;
     }
     
     public double getPrice() {
@@ -52,6 +53,10 @@ public abstract class Item implements Cloneable{
      
     public void changeQuantity(int newQuantity) {
         quantity = newQuantity;
+    }
+    
+    public void addQuantity (int addQuantity) {
+        quantity += addQuantity;
     }
     
     public void changePrice (double newPrice) {
@@ -71,14 +76,14 @@ public abstract class Item implements Cloneable{
         String result = "";
         result += "Item Name: " + name + "\n";
         result += "Quantity : " + quantity + "\n";
-        result += "Price: $" + String.format("%.3g", price) + " x " + quantity + " = $" + String.format("%.3g", price*quantity) + "\n";
+        result += "Price: $" + Math.floor(price * 100)/100 + " x " + quantity + " = $" + Math.floor(price * quantity * 100)/100 + "\n";
         return result;
     }
     
     public String adminString () {
         String result = "";
         result += "Item Name: " + name + "\n";
-        result += "Price: " + String.format("%.3g", price) + "\n";
+        result += "Price: $" + Math.floor(price * 100)/100 + "\n";
         result += "Quantity : " + quantity + "\n";
         result += "ID: " + id + "\n";
         result += getLocation();
@@ -88,7 +93,7 @@ public abstract class Item implements Cloneable{
     public String toString () {
         String result = "";
         result += "Item Name: " + name + "\n";
-        result += "Price: $" + String.format("%.3g", price) + "\n";
+        result += "Price: $" + Math.floor(price * 100)/100 + "\n";
         result += "Quantity : " + quantity + "\n";
         return result;
     }

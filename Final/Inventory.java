@@ -25,6 +25,44 @@ public class Inventory implements ItemList{
         return name;
     }
     
+    public boolean uniqueName(String name) {
+        name = name.toLowerCase();
+        for (Item item : inventory) {
+            if (item.getName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public int generateID () {
+        boolean unique = true;
+        
+        Random gen = new Random();
+        
+        int id = gen.nextInt(88888) + 11111;
+        
+        for (Item item : inventory) {
+            if (item.getID() == id) {
+                return generateID();
+            }
+        }
+        
+        return id;
+    }
+    
+    public boolean validIndex(int index) {
+        if (index >= 0 && index < inventory.size()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public void set (int index, Item item) {
+        inventory.set(index, item);
+    }
+    
     public int find (String name) {
         int index = -1;
         name = name.toLowerCase();
@@ -37,6 +75,19 @@ public class Inventory implements ItemList{
             }
         }
         return index;
+    }
+    
+    public Item findItem (Item checkItem) {
+        Item foundItem = null;
+        name = name.toLowerCase();
+        
+        for (Item item : inventory) {
+            if (item.getName().equals(checkItem.getName())) {
+                foundItem = item;
+            }
+        }
+        
+        return foundItem;
     }
     
     public void add (Item item) {
@@ -88,8 +139,10 @@ public class Inventory implements ItemList{
         cart.add(item);
     }
     
-    public void removeFromCart (int index, int quantity) {
+    public void removeCartItem (int index) {
         if (index >= 0 && index < cart.getSize()) {
+            int quantity = cart.get(index).getQuantity();
+            findItem(cart.get(index)).addQuantity(quantity);
             cart.remove(index);
         }
     }
@@ -111,17 +164,29 @@ public class Inventory implements ItemList{
         return (cart);
     }
     
-    public int totalPrice() {
-        int price = 0;
+    public int totalItems() {
+        int quantity = 0;
+        
         for (Item item : inventory) {
-            price += item.getPrice() * item.getQuantity();
+            quantity += item.getQuantity();
         }
-        return price;
+        
+        return quantity;
+    }
+    
+    public double totalPrice() {
+        double total = 0;
+        
+        for (Item item : inventory) {
+            total += item.getPrice() * item.getQuantity();
+        }
+        
+        return Math.floor(total * 100)/100;
     }
     
     public void changeUser (User newUser) {
         user = newUser;
-        System.out.println("User Changed!");
+        //System.out.println("User Changed!");
     }
     
     public User getUser () {
@@ -131,20 +196,21 @@ public class Inventory implements ItemList{
     public String help() {
         String result = "Welcome to " + name + "\n\n";
         result += "General Functionalities\n";
-        result += "Inventory\t\t\t\t - Displays entire inventory catalog\n";
-        result += "Cart\t\t\t\t\t - Displays user's cart\n";
-        result += "User\t\t\t\t\t - Displays user information\n";
-        result += "Change User\t\t\t - Change user (Input information when prompted)\n";
+        result += "Inventory\t\t\t\t\t\t - Displays entire inventory catalog\n";
+        result += "User\t\t\t\t\t\t\t - Displays user information\n";
+        result += "Change User\t\t\t\t\t - Change user\n";
         if (!user.isAdmin()) {
-            result += "Add To Cart\t\t\t - Adds an item to user's cart (Input item index and quantity)\n";
-            result += "Remove From Cart\t\t - Removes an item from user's cart (Input item index)\n";
-            result += "Change Item Quantity\t - Changes the quantity of an item in the user's cart (Input item index and new quantity)\n";
+            result += "\nShopping Functionalities\n";
+            result += "Cart\t\t\t\t\t\t\t - Displays user's cart\n";
+            result += "Add To Cart\t\t\t\t\t - Adds an item to user's cart\n";
+            result += "Edit Item\t\t\t\t\t\t - Changes the quantity of an item in the cart\n";
+            result += "Remove From Cart\t\t\t\t - Removes an item from user's cart)\n";
         } else {
-            result += "\nAdmin Functionalities:\n";
-            result += "Add Item\t\t\t\t - Adds item to inventory (Input information)\n";
-            result += "Remove Item\t\t\t - Removes item from inventory (Input item index)\n";
-            result += "Change Item Quantity\t - Changes quantity of item (Input item index and new quantity)\n";
-            result += "Clear Inventory\t\t - Clears entire inventory\n";
+            result += "\nAdmin Functionalities\n";
+            result += "Add (Food/Clothing/Misc) Item\t - Adds item to inventory\n";
+            result += "Change Item Quantity\t\t\t - Changes quantity of item\n";
+            result += "Remove Item\t\t\t\t\t - Removes item from inventory\n";
+            result += "Clear Inventory\t\t\t\t - Clears entire inventory\n";
         }
         return result;
     }

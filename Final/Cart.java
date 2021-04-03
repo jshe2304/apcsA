@@ -26,10 +26,10 @@ public class Cart implements ItemList{
     
     public void add (Item item) {
         if (find(item.getName()) != -1) {
-            System.out.println("Item, " + item.getName() + ", already added to cart.\nTo add a quantity of that item, use 'addQuantity'.\n");
+            //System.out.println("Item, " + item.getName() + ", already added to cart.\nTo add a quantity of that item, use 'addQuantity'.\n");
         } else {
             cart.add(item);
-            System.out.println("Item, " + item.getName() + ", added to cart!");
+            //System.out.println("Item, " + item.getName() + ", added to cart!");
         }
     }
 
@@ -51,12 +51,24 @@ public class Cart implements ItemList{
         }
     }
     
-    public int totalPrice() {
-        int price = 0;
+    public int totalItems() {
+        int quantity = 0;
+        
         for (Item item : cart) {
-            price += item.getPrice() * item.getQuantity();
+            quantity += item.getQuantity();
         }
-        return price;
+        
+        return quantity;
+    }
+    
+    public double totalPrice() {
+        double total = 0;
+        
+        for (Item item : cart) {
+            total += item.getPrice() * item.getQuantity();
+        }
+        
+        return Math.floor(total * 100)/100;
     }
     
     public void clearAll () {
@@ -69,7 +81,7 @@ public class Cart implements ItemList{
         
         int count = 1;
         for (Item item : cart) {
-            result += count + ".\n" + item.cartString() + "\n";
+            result += count + "\n" + item.cartString() + "\n";
             count++;
         }
         

@@ -26,7 +26,7 @@ public class loginWindow {
         TextField usernameText = new TextField();
         usernameText.setPromptText("Enter username");
 
-        TextField passwordText = new TextField();
+        PasswordField passwordText = new PasswordField();
         passwordText.setPromptText("Enter password");
         
         Button enterButton = new Button("Enter");

@@ -21,7 +21,9 @@ public class MessageWindow {
         closeButton.setOnAction(e -> loginStage.close());
         
         VBox layout = new VBox (label, closeButton);
+        layout.setSpacing(10);
         layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(15, 15, 15, 15));
         
         Scene scene = new Scene(layout);
         loginStage.setScene(scene);

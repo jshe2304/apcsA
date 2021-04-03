@@ -18,7 +18,9 @@ public interface ItemList {
     
     public void clearAll ();
     
-    public int totalPrice();
+    public int totalItems();
+    
+    public double totalPrice();
     
     public String toString ();
 } 

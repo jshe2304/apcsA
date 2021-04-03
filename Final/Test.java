@@ -1,15 +1,10 @@
 package Final;
 
-public class InventoryDatabase {
-    public static Inventory getInventory () {
-        
+public class Test {
+    public static void main(String[] args) {
         Cart cart = new Cart();
         
         User adm = new User ("Admin", true, false, 1234567890, "1234 Main Street, PV, CA, USA", "password321");
-        
-        // UserList userlist = new UserList();
-        // userlist.addUser(cust);
-        // userlist.addUser(adm);
         
         Inventory inventory = new Inventory("Inventory 1", cart, adm);
         
@@ -31,6 +26,8 @@ public class InventoryDatabase {
         inventory.add(paper);
         inventory.add(batteries);
         
-        return inventory;
+        System.out.println(inventory.validIndex(1));
+        System.out.println(inventory.validIndex(8));
+        System.out.println(inventory.validIndex(-1));
     }
 }

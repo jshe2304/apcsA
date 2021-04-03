@@ -15,8 +15,8 @@ public class Food extends Item{
         }
     }
     
-    public String getType () {
-        return "food";
+    public double getOrigPrice() {
+        return origPrice;
     }
     
     public boolean getOrganic() {
@@ -31,7 +31,7 @@ public class Food extends Item{
         String result = super.adminString();
         
         if (organic) {
-            result += "Organic ($" + String.format("%.3g", origPrice) + " + 20%)\n";
+            result += "Organic ($" + Math.floor(origPrice * 100)/100 + " + 20%)\n";
         }
         
         if (adult) {
@@ -44,7 +44,7 @@ public class Food extends Item{
     public String toString () {
         String result = super.toString();
         if (organic) {
-            result += "Organic ($" + String.format("%.3g", origPrice) + " + 20%)\n";
+            result += "Organic ($" + Math.floor(origPrice * 100)/100 + " + 20%)\n";
         }
         
         if (adult) {
