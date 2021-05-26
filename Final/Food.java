@@ -1,5 +1,14 @@
 package Final;
 
+/*
+ * Represents a Item classified as a Food.
+ * 
+ * Contains additional values of Organic, which marks up the price by 20% and Adult, which restricts purchase by age.
+ * 
+ * The double origPrice below is equal to the original price inputted when the item is created. 
+ * If the Food Item is organic, the origPrice is displayed to inform the User of the markup
+ */
+
 public class Food extends Item{
     private boolean organic;
     private boolean adult;
@@ -10,10 +19,24 @@ public class Food extends Item{
         this.organic = organic;
         this.adult = adult;
         origPrice = price;
+        
         if (organic) {
             changePrice(price * 1.2);
         }
+        
     }
+    
+    public String getName() {
+        if (organic) {
+            return "Organic " + super.getName().substring(0, 1).toUpperCase() + super.getName().substring(1);
+        } else {
+            return super.getName();
+        }
+    }
+    
+    /*
+     * The following functions return the additonal child class values.
+     */
     
     public double getOrigPrice() {
         return origPrice;
@@ -23,9 +46,13 @@ public class Food extends Item{
         return organic;
     }
     
-    public boolean getAdult() {
+    public boolean isAdult() {
         return adult;
     }
+    
+    /*
+     * The additional child class values must be added to the String return functions.
+     */
     
     public String adminString () {
         String result = super.adminString();

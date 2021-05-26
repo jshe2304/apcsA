@@ -2,28 +2,59 @@ package Final;
 
 import java.util.*;
 
+/*
+ * Represents an Inventory.
+ * 
+ * Takes 3 parameters for operation.
+ * Cart and User objects must be created prior to Inventory object creation in order to be passed in.
+ * 
+ * Creates an ArrayList of Item objects on construction.
+ */
+
 public class Inventory implements ItemList{
     
     ArrayList<Item> inventory = new ArrayList<Item>();
     String name;
-    Cart cart;
-    User user;
-    //UserList userList;
+    static Cart cart;
+    //User user;
     
-    public Inventory (String name, Cart cart, User user) {
+    public Inventory (String name, Cart cart) {
         this.name = name;
         this.cart = cart;
-        this.user = user;
-        //this.userList = userList;
+        //this.user = user;
     }
+    
+    /*
+     * The following functions return the object attributes.
+     * 
+     * The getCart and getUser functions return the corresponding Cart or User objects for manipulation.
+     */
+    
+    public String getName () {
+        return name;
+    }
+    
+    public Cart getCart () {
+        return (cart);
+    }
+    
+    // public User getUser () {
+        // return user;
+    // }
+    
+    /*
+     * Returns the Item at the given index.
+     */
     
     public Item get(int index) {
         return inventory.get(index);
     }
     
-    public String getName () {
-        return name;
-    }
+    /*
+     * Checks to see whether a given name is unique or not.
+     * 
+     * Used when adding Items to the inventory.
+     */
     
     public boolean uniqueName(String name) {
         name = name.toLowerCase();
@@ -34,6 +65,12 @@ public class Inventory implements ItemList{
         }
         return true;
     }
+    
+    /*
+     * Generates a 5 digit unique ID using recursion.
+     * 
+     * Used when adding Items to the inventory.
+     */
     
     public int generateID () {
         boolean unique = true;
@@ -51,6 +88,12 @@ public class Inventory implements ItemList{
         return id;
     }
     
+    /*
+     * Makes sure a given index is valid.
+     * 
+     * Simply used to clean up future code.
+     */
+    
     public boolean validIndex(int index) {
         if (index >= 0 && index < inventory.size()) {
             return true;
@@ -59,9 +102,19 @@ public class Inventory implements ItemList{
         }
     }
     
+    /*
+     * Sets changes the Item at the given index to the given Item.
+     * 
+     * Used to clean up future code.
+     */
+    
     public void set (int index, Item item) {
         inventory.set(index, item);
     }
+    
+    /*
+     * Finds the index of an Item based on a given name;
+     */
     
     public int find (String name) {
         int index = -1;
@@ -77,9 +130,12 @@ public class Inventory implements ItemList{
         return index;
     }
     
-    public Item findItem (Item checkItem) {
+    /*
+     * Links the Item in the Inventory from a given Item for manipulation.
+     */
+    
+    public Item find (Item checkItem) {
         Item foundItem = null;
-        name = name.toLowerCase();
         
         for (Item item : inventory) {
             if (item.getName().equals(checkItem.getName())) {
@@ -90,34 +146,59 @@ public class Inventory implements ItemList{
         return foundItem;
     }
     
+    /*
+     * Finds the index of the Item with the given ID.
+     */
+    
+    public int find (int givenID) {
+        for (Item item : inventory) {
+            if (item.getID() == givenID) {
+                return inventory.indexOf(item);
+            }
+        }
+        return -1;
+    }
+    
+    /*
+     * Adds an Item to the inventory if the name is unique.
+     */
+    
     public void add (Item item) {
-        if (find(item.getName()) != -1) {
-            //System.out.println("Item, " + item.getName() + ", already exists.\nTo add a quantity of that item, use 'addQuantity'.\n");
-        } else {
+        if (uniqueName(item.getName())) {
             inventory.add(item);
-            //System.out.println("Item, " + item.getName() + ", added!");
         }
     }
-
-    public int getSize () {
-        return inventory.size();
-    }
+    
+    /*
+     * Removes the Item at the specified index from the inventory.
+     */
     
     public void remove (int index) {
         inventory.remove(index);
     }
     
+    /*
+     * Changes the quantity of the Item at the given index to the given quantity
+     */
+    
     public void changeQuantity (int index, int quantity) {
-        if (index < inventory.size() && index >= 0) {
+        if (validIndex(index)) {
             inventory.get(index).changeQuantity(quantity);
-        } else {
-            System.out.println("Item index out of bounds.\nTo create an item, use 'add'.\n");
         }
     }
+    
+    /*
+     * Clears the entire inventory.
+     */
     
     public void clearAll () {
         inventory.clear();
     }
+    
+    
+    /*
+     * Adds the given quantity of the Item at the given index to the Cart.
+     */
     
     public void addToCart (int index, int quantity) {
         if (index >= 0 && index < inventory.size()) {
@@ -135,17 +216,29 @@ public class Inventory implements ItemList{
         }
     }
     
+    /*
+     * Adds an Item object to the cart.
+     */
+    
     public void addToCart (Item item) {
         cart.add(item);
     }
     
+    /*
+     * Removes the Item at the given index from the Cart and returns the quantity of the removed Item to the Inventory.
+     */
+    
     public void removeCartItem (int index) {
         if (index >= 0 && index < cart.getSize()) {
             int quantity = cart.get(index).getQuantity();
-            findItem(cart.get(index)).addQuantity(quantity);
+            find(cart.get(index)).addQuantity(quantity);
             cart.remove(index);
         }
     }
+    
+    /*
+     * Changes the quantity of the Item at the given index to the given quantity.
+     */
     
     public void changeCartItemQuantity (int index, int quantity) {
         Item item = cart.get(index);
@@ -160,9 +253,28 @@ public class Inventory implements ItemList{
         changeQuantity(originalIndex,  originalQuantity + returnedQuantity);
     }
     
-    public Cart getCart () {
-        return (cart);
+    /*
+     * Clears the entire cart and returns the quantities of all removed Items to the Inventory.
+     */
+    
+    public void clearCart () {
+        for (int i = 0; i < cart.getSize(); i++) {
+            changeCartItemQuantity(i, 0);
+        }
+        cart.clearAll();
     }
+
+    /*
+     * Returns the number of unique Items in the Inventory.
+     */
+
+    public int getSize () {
+        return inventory.size();
+    }
+    
+    /*
+     * Returns the total number of items in the Inventory.
+     */
     
     public int totalItems() {
         int quantity = 0;
@@ -174,6 +286,10 @@ public class Inventory implements ItemList{
         return quantity;
     }
     
+    /*
+     * Returns the total price/value of the inventory.
+     */
+    
     public double totalPrice() {
         double total = 0;
         
@@ -184,44 +300,62 @@ public class Inventory implements ItemList{
         return Math.floor(total * 100)/100;
     }
     
-    public void changeUser (User newUser) {
-        user = newUser;
-        //System.out.println("User Changed!");
-    }
+    /*
+     * Changes the User to the given User.
+     */
     
-    public User getUser () {
-        return user;
-    }
+    // public void changeUser (User newUser) {
+        // user = newUser;
+    // }
     
-    public String help() {
-        String result = "Welcome to " + name + "\n\n";
+    /*
+     * Returns a help String for display in the GUI. 
+     * 
+     * Administrators and Customers see different Strings
+     */
+    
+    public String help(boolean isAdmin) {
+        String result = "";
         result += "General Functionalities\n";
         result += "Inventory\t\t\t\t\t\t - Displays entire inventory catalog\n";
         result += "User\t\t\t\t\t\t\t - Displays user information\n";
         result += "Change User\t\t\t\t\t - Change user\n";
-        if (!user.isAdmin()) {
+        if (isAdmin) {
+            result += "\nAdmin Functionalities\n";
+            result += "Inventory Info\t\t\t\t\t - Displays Additional Inventory Information\n";
+            result += "Add (Food/Clothing/Misc) Item\t - Adds item to inventory\n";
+            result += "Remove Item\t\t\t\t\t - Removes item from inventory\n";
+            result += "Edit Item\t\t\t\t\t\t - Change item information\n";
+            result += "Clear Inventory\t\t\t\t - Clears entire inventory\n";
+        } else {
             result += "\nShopping Functionalities\n";
             result += "Cart\t\t\t\t\t\t\t - Displays user's cart\n";
             result += "Add To Cart\t\t\t\t\t - Adds an item to user's cart\n";
             result += "Edit Item\t\t\t\t\t\t - Changes the quantity of an item in the cart\n";
             result += "Remove From Cart\t\t\t\t - Removes an item from user's cart)\n";
-        } else {
-            result += "\nAdmin Functionalities\n";
-            result += "Add (Food/Clothing/Misc) Item\t - Adds item to inventory\n";
-            result += "Change Item Quantity\t\t\t - Changes quantity of item\n";
-            result += "Remove Item\t\t\t\t\t - Removes item from inventory\n";
-            result += "Clear Inventory\t\t\t\t - Clears entire inventory\n";
         }
         return result;
     }
+    
+    public void saveInventory () {
+    }
+    
+    /*
+     * Returns a list of all Items in the inventory.
+     * 
+     * Administrators and Customers recieve different Strings with more or less information for each Item, respectively.
+     */
 
-    public String toString () {
+    public String toString (boolean isAdmin) {
+        Iterator<Item> iter = inventory.iterator();
+        
         String result = "";
         
         int count = 1;
         
-        for (Item item : inventory) {
-            if (user.isAdmin()) {
+        while (iter.hasNext()) {
+            Item item = iter.next();
+            if (isAdmin) {
                 result += count + "\n" + item.adminString() + "\n";
             } else {
                 result += count + "\n" + item.toString() + "\n";

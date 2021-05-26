@@ -9,7 +9,20 @@ import javafx.stage.*;
 import javafx.geometry.*;
 import java.util.*;
 
-public class editInventoryItemWindow {
+/*
+ * Displays a window for editting an Item in the inventory.
+ * 
+ * Parameters : String itemType for identifying which type of Item to ask for.
+ *              Item item from the main program for editing
+ * 
+ * Identical to the window for adding Items into the inventory.
+ * Only difference is that the fields are filled out already for editing. 
+ * See InventoryItemWindow.
+ * 
+ * See InventoryGUI for explanation of JavaFX GUI
+ */
+
+public class EditInventoryItemWindow {
     
     static boolean cancelled;
     
@@ -47,7 +60,7 @@ public class editInventoryItemWindow {
         
         if (item instanceof Food) {
             organic = ((Food) item).getOrganic();
-            adult = ((Food) item).getAdult();
+            adult = ((Food) item).isAdult();
         } else if (item instanceof Clothing) {
             gender = ((Clothing) item).getGender();
             size = ((Clothing) item).getSize();
@@ -60,9 +73,13 @@ public class editInventoryItemWindow {
         Stage itemStage = new Stage ();
         
         itemStage.initModality(Modality.APPLICATION_MODAL);
-        itemStage.setTitle("Add Item To Inventory");
+        itemStage.setTitle("Edit Item To Inventory");
         
         Label label = new Label ("Change Item Properties");
+        
+        /*
+         * The existing values of the Item are added to the text boxes for editing.
+         */
         
         TextField nameText = new TextField(name);
         nameText.setPromptText("Enter name");
@@ -84,18 +101,18 @@ public class editInventoryItemWindow {
             organicCheck.setSelected(true);
         }
         
-        CheckBox adultCheck = new CheckBox ("Adult Only");
+        CheckBox adultCheck = new CheckBox ("Alcohol");
         if (adult) {
             adultCheck.setSelected(true);
         }
         
-        TextField genderText = new TextField();
+        TextField genderText = new TextField(gender + "");
         genderText.setPromptText("Enter Gender");
         
-        TextField sizeText = new TextField();
+        TextField sizeText = new TextField(size + "");
         sizeText.setPromptText("Enter Size");
         
-        TextField departmentText = new TextField();
+        TextField departmentText = new TextField(department + "");
         departmentText.setPromptText("Enter Department");
         
         Button enterButton = new Button("Enter");
@@ -143,9 +160,13 @@ public class editInventoryItemWindow {
         layout.setPadding(new Insets(15, 15, 15, 15));
         layout.setSpacing(10);
         
-        Scene scene = new Scene(layout, 500, 500);
+        Scene scene = new Scene(layout);
         itemStage.setScene(scene);
         itemStage.showAndWait();
+        
+        /*
+         * Creates Item from itemType and inputted values.
+         */
         
         if (!cancelled) {
             if (itemType.equals("food")) {
@@ -160,7 +181,7 @@ public class editInventoryItemWindow {
                 return new Misc(name, id, location, price, quantity, department);
             }
         } else {
-            return null;
+            return item;
         }
         return null;
     }

@@ -1,5 +1,11 @@
 package Final;
 
+/*
+ * Represents an Item classified as Misc (Miscellaneous).
+ * 
+ * Contains the additonal value of Department.
+ */
+
 public class Misc extends Item{
     
     public String department;
@@ -9,9 +15,17 @@ public class Misc extends Item{
         this.department = department;
     }
     
+    /*
+     * Returns the additonal child class values.
+     */
+    
     public String getDepartment() {
         return department;
     }
+    
+    /*
+     * The additional child class values must be added to the String return functions.
+     */
     
     public String adminString() {
         String result = super.adminString();

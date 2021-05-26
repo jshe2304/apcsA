@@ -1,5 +1,12 @@
 package Final;
 
+/*
+ * Location class
+ * 
+ * Aggregates location information into an object for simplified use
+ * Accompanied by functions for manipulation and returns.
+ */
+
 public class Location {
     
     public int floor;

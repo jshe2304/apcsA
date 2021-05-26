@@ -2,9 +2,16 @@ package Final;
 
 import java.util.*;
 
+/*
+ * ItemList interface.
+ * 
+ * Establishes basic function necessary for implementation.
+ * Implemented by Inventory and Cart classes.
+ * 
+ * Functions are self explanatory.
+ */
+
 public interface ItemList {
-    
-    ArrayList<Item> list = new ArrayList<Item>();
     
     public int find (String name);
     

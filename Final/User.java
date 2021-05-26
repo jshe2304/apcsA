@@ -1,5 +1,12 @@
 package Final;
 
+/*
+ * Represents a User account needed to use the Inventory.
+ * 
+ * Has 6 basic values.
+ * Credit Card number (creditCard), Address, and Password cannot be returned for security reasons, but can be check to see if they exist.
+ */
+
 public class User {
     public String name;
     public boolean admin;
@@ -17,16 +24,13 @@ public class User {
         this.password = password;
     }
     
+    /*
+     * The following functions return the accessible values.
+     */
+    
     public String getName () {
         return name;
     }
-    
-    public boolean comparePassword(String inputPassword) {
-        if (this.password.equals(inputPassword)) {
-            return true;
-        }
-        return false;
-    } 
     
     public boolean isAdmin () {
         return admin;
@@ -36,6 +40,23 @@ public class User {
         return adult;
     }
     
+    /*
+     * This function can compare a password to see if it matches the User's password. 
+     * 
+     * Used in the login process
+     */
+    
+    public boolean comparePassword(String inputPassword) {
+        if (this.password.equals(inputPassword)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /*
+     * Ensures whether or not the User has a credit card in the system.
+     */
+    
     private boolean hasCard () {
         if (creditCard > 0) {
             return true;
@@ -44,6 +65,10 @@ public class User {
         }
     }
     
+    /*
+     * Ensures the User has an address to use.
+     */
+    
     private boolean hasAddress () {
         if (address.length() > 1) {
             return true;
@@ -51,6 +76,14 @@ public class User {
             return false;
         }
     }
+    
+    /*
+     * Returns the User's information.
+     * 
+     * Some fields are hidden.
+     * 
+     * Accessible from the Inventory GUI.
+     */
     
     public String toString () {
         String result = "";

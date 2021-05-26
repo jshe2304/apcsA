@@ -8,15 +8,30 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import javafx.geometry.*;
 
-public class loginWindow {
+/*
+ * Displays a login window.
+ * 
+ * Explanatory text accompanied by two text boxes for the username and password.
+ * An Enter button passes the values to the main program
+ * A Cancel button closes the window
+ * 
+ * Values inputted are passed into the main program. 
+ * If a text box is empty, the window will return null to the main program.
+ * 
+ * See InventoryGUI for explanation of JavaFX GUI
+ */
+
+public class LoginWindow {
     
     private static String username = "";
     private static String password = "";
     
-    static User closedUser = new User("", false, false, 0, "", "");
-    
-    public static User display (UserList userList) {
+    public static String[] display () {
         Stage loginStage = new Stage ();
+        
+        /*
+         * initModality() ensures that the User fills out or terminates this window before returning to the main program.
+         */
         
         loginStage.initModality(Modality.APPLICATION_MODAL);
         loginStage.setTitle("Login");
@@ -30,13 +45,18 @@ public class loginWindow {
         passwordText.setPromptText("Enter password");
         
         Button enterButton = new Button("Enter");
+        Button cancelButton = new Button("Cancel");
+        
+        /*
+         * Lambda functions to handle the Enter and Cancel buttons.
+         */
+        
         enterButton.setOnAction(e -> {
             username = usernameText.getText();
             password = passwordText.getText();
             loginStage.close();
         });
         
-        Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> {
             loginStage.close();
         });
@@ -47,12 +67,17 @@ public class loginWindow {
         
         Scene scene = new Scene(layout, 250, 190);
         loginStage.setScene(scene);
+        
+        /*
+         * showAndWait() ensures that the User fills out or terminates this window before returning to the main program.
+         */
+        
         loginStage.showAndWait();
         
-        if (username.equals("")) {
-            return closedUser;
+        if (username.equals("") || password.equals("")) {
+            return null;
         } else {
-            return userList.getLogin(username, password);
+            return new String[] {username, password};
         }
     }
 }

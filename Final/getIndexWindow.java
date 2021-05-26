@@ -8,12 +8,29 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import javafx.geometry.*;
 
-public class getIndexWindow {
+/*
+ * Displays a window to get an index number.
+ * 
+ * Parameters : String message for communicating with the User.
+ * 
+ * Explanatory text accompanied by one text box for the index number.
+ * An Enter button passes the values to the main program
+ * A Cancel button closes the window
+ * 
+ * Values inputted are passed into the main program. 
+ * If the text box is empty, the window will return null to the main program.
+ */
+
+public class GetIndexWindow {
     
     private static int index = -1;
     
-    public static int display (String message) {
+    public static Integer display (String message) {
         Stage itemStage = new Stage ();
+        
+        /*
+         * initModality() ensures that the User fills out or terminates this window before returning to the main program.
+         */
         
         itemStage.initModality(Modality.APPLICATION_MODAL);
         itemStage.setTitle(message);
@@ -24,12 +41,16 @@ public class getIndexWindow {
         indexText.setPromptText("Enter index");
         
         Button enterButton = new Button("Enter");
+        Button cancelButton = new Button("Cancel");
+        /*
+         * Lambda functions to handle the Enter and Cancel buttons.
+         */
+        
         enterButton.setOnAction(e -> {
             index = Integer.parseInt(indexText.getText()) - 1;
             itemStage.close();
         });
-        
-        Button cancelButton = new Button("Cancel");
+
         cancelButton.setOnAction(e -> {
             itemStage.close();
         });
@@ -40,8 +61,17 @@ public class getIndexWindow {
         
         Scene scene = new Scene(layout);
         itemStage.setScene(scene);
+        
+        /*
+         * showAndWait() ensures that the User fills out or terminates this window before returning to the main program.
+         */
+        
         itemStage.showAndWait();
         
-        return index;
+        if (index == -1) {
+            return null;
+        } else {
+            return index;
+        }
     }
 }

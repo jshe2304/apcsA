@@ -1,5 +1,11 @@
 package Final;
 
+/*
+ * Represents an Item classified as Clothing.
+ * 
+ * Contains the additional values of Gender and Size.
+ */
+
 public class Clothing extends Item {
     
     private String gender;
@@ -10,6 +16,10 @@ public class Clothing extends Item {
         this.gender = gender;
         this.size = size;
     }
+    
+    /*
+     * Returns the additonal child class values.
+     */
     
     public String getType() {
         return "clothing";
@@ -23,6 +33,10 @@ public class Clothing extends Item {
         return size;
     }
     
+    /*
+     * The additional child class values must be added to the String return functions.
+     */
+    
     public String adminString () {
         String result = super.adminString();
         result += "Gender : " + gender + "\n";
@@ -31,7 +45,6 @@ public class Clothing extends Item {
     }
     
     public String toString () {
-
         String result = super.toString();
         result += "Gender : " + gender + "\n";
         result += "Size : " + size + "\n";

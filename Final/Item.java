@@ -3,6 +3,13 @@ package Final;
 import java.util.*;
 import java.lang.Cloneable;
 
+/*
+ * Represents an Item in the Inventory
+ * 
+ * Items have 5 basic fields, including a Location object.
+ * Items have functions for manipulation and returns.
+ */
+
 public abstract class Item implements Cloneable{
     String name;
     int id;
@@ -19,9 +26,17 @@ public abstract class Item implements Cloneable{
         this.quantity = quantity;
     }
     
+    /*
+     * This function ensures that later on, the program can make a separate copy of an Item.
+     */
+    
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+    
+    /*
+     * The following functions return the Item values.
+     */
     
     public String getName() {
         return name;
@@ -50,7 +65,11 @@ public abstract class Item implements Cloneable{
     public int getQuantity() {
         return quantity;
     }
-     
+    
+    /*
+     * The following functions change the basic values.
+     */
+    
     public void changeQuantity(int newQuantity) {
         quantity = newQuantity;
     }
@@ -72,6 +91,11 @@ public abstract class Item implements Cloneable{
         this.location = location;
     }
     
+    /*
+     * Returns a String to be displayed when the Item is added to a Cart.
+     * Contains limited information.
+     */
+    
     public String cartString () {
         String result = "";
         result += "Item Name: " + name + "\n";
@@ -80,9 +104,14 @@ public abstract class Item implements Cloneable{
         return result;
     }
     
+    /*
+     * Returns a String to be displayed when an Administrator is viewing the Item.
+     * Contains all values. 
+     */
+    
     public String adminString () {
         String result = "";
-        result += "Item Name: " + name + "\n";
+        result += getName().substring(0, 1).toUpperCase() + getName().substring(1) + "\n";
         result += "Price: $" + Math.floor(price * 100)/100 + "\n";
         result += "Quantity : " + quantity + "\n";
         result += "ID: " + id + "\n";
@@ -90,9 +119,14 @@ public abstract class Item implements Cloneable{
         return result;
     }
     
+    /*
+     * Returns a String to be displayed when a Customer is viewing the Item outside of the Cart.
+     * Contains limited information.
+     */
+    
     public String toString () {
         String result = "";
-        result += "Item Name: " + name + "\n";
+        result += getName().substring(0, 1).toUpperCase() + getName().substring(1) + "\n";
         result += "Price: $" + Math.floor(price * 100)/100 + "\n";
         result += "Quantity : " + quantity + "\n";
         return result;

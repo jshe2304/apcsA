@@ -8,7 +8,19 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import javafx.geometry.*;
 
-public class cartItemWindow {
+/*
+ * Displays a window for adding an Item to the Cart.
+ * 
+ * Explanatory text accompanied by two text boxed for Item index and quantity.
+ * An Enter button passes the values to the main program.
+ * A Cancel button closes the window
+ * 
+ * Values entered are passed into the main program in the form of an Array.
+ * If a box is empty, the window will return null to the main program.
+ * 
+ */
+
+public class CartItemWindow {
     
     private static int index = -1;
     private static int quantity = -1;
@@ -43,10 +55,14 @@ public class cartItemWindow {
         layout.setPadding(new Insets(15, 15, 15, 15));
         layout.setSpacing(10);
         
-        Scene scene = new Scene(layout, 250, 190);
+        Scene scene = new Scene(layout);
         itemStage.setScene(scene);
         itemStage.showAndWait();
         
-        return new int[] {index, quantity};
+        if (index == -1 || quantity == -1) {
+            return null;
+        } else {
+            return new int[] {index, quantity};
+        }
     }
 }
