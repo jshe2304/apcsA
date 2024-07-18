@@ -1,3 +1,1 @@
-# APCompSci
-
-See Master Branch
+# AP Computer Science A
